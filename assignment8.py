@@ -12,7 +12,6 @@ iris = load_iris()
 X = pd.DataFrame(iris.data, columns=iris.feature_names)
 y = pd.Series(iris.target, name="species")
 df = pd.concat([X, y], axis=1)
-print(df.head(150))
 print(df.isnull().sum())
 
 # KMeans uses Euclidean distance, so features must be on the same scale.
@@ -35,8 +34,12 @@ X_scaled = scaler.fit_transform(X)
 # Visualization: Checking which two features shows clear groups and low overlap
 # ------------------------------------------------------------------------------
 
-plt.scatter(df['sepal length (cm)'], df['sepal width (cm)'], color='red')
-plt.scatter(df['petal length (cm)'], df['petal width (cm)'], color='green')
+plt.scatter(df['sepal length (cm)'], df['sepal width (cm)'], color='red', label='Sepal Features')
+plt.scatter(df['petal length (cm)'], df['petal width (cm)'], color='green', label='petal Features')
+plt.title('Feature Pair Comparison for Cluster Separability')
+plt.xlabel("Length (cm)")
+plt.ylabel("Width (cm)")
+plt.legend()
 plt.show()
 
 # Step 1: Decide the number of cluster(k) using elbow method
@@ -64,6 +67,7 @@ df['Cluster'] = labels
 # Step 3: visualize the clusters
 # ------------------------------------
 plt.scatter(df['petal length (cm)'], df['petal width (cm)'], c=df['Cluster'])
+plt.title('KMeans - Clusters')
 plt.xlabel("petal length (cm)")
 plt.ylabel("petal width (cm)")
 plt.show()
